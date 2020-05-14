@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    {{form_start(formUser)}}
+
+    <div class="form-group">
+        {{form_widget(formUser)}}
+    </div>
+    <div class="form-group">
+        <center><button class="btn btn-primary" type="submit">Creer un nouveau utilisateur</button></center>
+    </div>
+    {{form_end(formUser)}}
+</div>
+{% endblock %}

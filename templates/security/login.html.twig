@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+<div class="container mt-5 img-thumbnail p-3">
+	<form action="{{path('security_login')}}" method="POST">
+
+		<div class="form-group">
+			{% if error %}
+			<div class="alert alert-warning">
+				{{error.messageKey}}
+			</div>
+			{% endif %}
+			<label for="username">Nom d'utilisateur</label>
+			<input type="text" name="_username" value="{{last_username}}" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="password">Mot de Passe</label>
+			<input type="password" name="_password" class="form-control">
+		</div>
+		<div class="form-group">
+			<center><button class="btn btn-primary" type="submit">Se Connecter</button></center>
+		</div>
+	</form>
+</div>
+{% endblock %}

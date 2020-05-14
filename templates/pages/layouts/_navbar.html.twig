@@ -9,9 +9,17 @@
 
             <li class="nav-item">
                 <a class="nav-link {% if current_menu is defined and current_menu =='property_index' %}active {% endif %}"
-                    href="{{path('property_index')}}">Acheter</a>
+                    href="#">Voir tous les biens</a>
             </li>
 
+
+        </ul>
+        <ul class="navbar-nav">
+            {% if app.user %}
+            <li class="btn btn-info btn-sm">
+                <a href="{{path('logout')}}" class="nav-link">Se déconnecter</a>
+            </li>
+            {% endif %}
         </ul>
 
     </div>

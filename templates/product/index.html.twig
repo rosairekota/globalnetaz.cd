@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boutique!{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="jumbotron p-2">
+        <h1 class="text-center text-product-title" style="font-size: 3rem;
+        font-weight: bold;">Les Produits</h1>
+    </div>
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-title">
+                    <h3>{{product.title}}</h3>
+                </div>
+                <img src="{{product.image}}" alt="img-product">
+                <div class="card-body">
+                    <div class="card-text">
+                        <p>Prix: {{product.price}}</p>
+                    </div>
+                    <button type="submit" class="btn btn-success  rounded rounded-pill">Ajouter</button>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

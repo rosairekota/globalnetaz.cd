@@ -11,3 +11,7 @@
 .admin-action{
     display: inline-block;
 }
+.text-product-title{
+    font-size: 5rem;
+    font-weight: bold;
+}
