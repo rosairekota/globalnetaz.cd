@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Property;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use App\Entity\PropertySearch;
 
 /**
  * @method Property|null find($id, $lockMode = null, $lockVersion = null)
@@ -38,28 +39,33 @@ class PropertyRepository extends ServiceEntityRepository
                     ->getResult();
     }
 
-
+    
+    public function findSearchProperty(PropertySearch $search)
+    {
+        $query= $this->findVisibleQuery();
+        if ($search->getMaxPrice()) {
+            $query=$query->andWhere('p.price <= :maxPrice')
+                         ->setParameter('maxPrice', $search->getMaxPrice());
+        }
+        elseif ($search->getMinSurface()) {
+            $query=$query->andWhere('p.surface <= :minSurface')
+                         ->setParameter('minSurface', $search->getMinSurface());
+        }   
+        $query=$query->orderBy('p.id', 'ASC')
+                    ->setMaxResults(12)
+                    ->getQuery()
+                    ->getResult()
+        ;
+        return $query;
+    }
+    
     private function findVisibleQuery(){
 
         return $this->createQueryBuilder('p')
                     ->where('p.sold=false');
     }
-    // /**
-    //  * @return Property[] Returns an array of Property objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+
+   
 
     /*
     public function findOneBySomeField($value): ?Property

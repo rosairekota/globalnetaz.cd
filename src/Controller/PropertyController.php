@@ -4,9 +4,14 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 use App\Repository\PropertyRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Property;
+use App\Entity\PropertySearch;
+use App\Form\PropertySearchType;
+
+
 
 class PropertyController extends AbstractController
 {
@@ -15,24 +20,33 @@ class PropertyController extends AbstractController
      */
 
     private $repo;
-
+   
     
     public function __construct(PropertyRepository $repo){
         $this->repo=$repo;
+        
      
     }
     
     /**
      * @Route("/biens", name="property_index")
      */
-    public function index()
+    public function index(Request $request)
     {
-        $property=$this->repo->findAllVisible();
-       // $this->em->flush();
+        $propertySearch= new PropertySearch();
+        $form_search=$this->createForm(PropertySearchType::class,$propertySearch);
+        $form_search->handleRequest($request);
+
+      
+
+        $properties=$this->repo->findSearchProperty($propertySearch);
         return $this->render('pages/property/index.html.twig',[
-            'current_menu' =>'property_index',
-            'property'    =>$property,
+            'current_menu'      =>'property_index',
+            'properties'        =>$properties,
+            'form_search'      =>$form_search->createView()
         ]);
+       // $this->em->flush();
+        
     }
 
     /**
@@ -51,4 +65,41 @@ class PropertyController extends AbstractController
             'property'    =>$property,
         ]);
     }
+
+
+
+    // MES HELPERS
+
+    
+  
+  public function paginate(int $nombreEltBypage, $request,PropertyRepository $repo){
+   
+   // $page=($_GET['paginate']?? 1);
+    $page=$request;
+    if (!filter_var($page, FILTER_VALIDATE_INT)) {
+        die("La valeur decimal n'est acceptable\n\t");
+    }
+
+    $currentpage=(int)$page;
+
+    if ($currentpage<=0) {
+        die("Numero de page invalide\n\t");
+        
+    }
+   
+
+    $sql=$repo->findAll();
+
+    $property_number=\count($repo->findAll()); 
+    $nombre_pages=ceil($property_number/$nombreEltBypage);
+       if ($currentpage>$nombre_pages) {
+        die("Cette page n'existe pas. \n\t");
+        
+    }
+    $offset=$nombreEltBypage*($currentpage-1);
+     //$properties=$QueryBuilder;
+  return compact('nombre_pages','currentpage','offset');
+
+}
+
 }

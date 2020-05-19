@@ -3,7 +3,34 @@
 {% block title 'Tous nos biens'%}
 
 {% block body %}
-<div>
-    <h1 class="text-center">Voir Tous nos Biens</h1>
+<div class="jumbotron">
+    <div class="container">
+        {{form_start(form_search)}}
+        <div class="form-row bg-dark mb-4 p-4 align-items-end">
+            <div class="col">
+                {{form_row(form_search.minSurface)}}
+            </div>
+            <div class="col">
+                {{form_row(form_search.maxPrice)}}
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <button class="btn btn-primary"> Recherher</button>
+                </div>
+            </div>
+        </div>
+        {{form_end(form_search)}}
+    </div>
+</div>
+<div class="container mt-4">
+    <h1 class="text-center">Voir tous nos biens</h1>
+    <div class="row">
+        {% for property in properties %}
+        <div class="col-md-4">
+
+            {% include "pages/property/partials/_property.html.twig" %}
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
