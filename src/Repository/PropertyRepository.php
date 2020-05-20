@@ -47,10 +47,22 @@ class PropertyRepository extends ServiceEntityRepository
             $query=$query->andWhere('p.price <= :maxPrice')
                          ->setParameter('maxPrice', $search->getMaxPrice());
         }
-        elseif ($search->getMinSurface()) {
+        if ($search->getMinSurface()) {
             $query=$query->andWhere('p.surface <= :minSurface')
                          ->setParameter('minSurface', $search->getMinSurface());
-        }   
+        }  
+        /**
+         * On met la possiblité de rechercher via les options
+         * 
+         *  */ 
+        if ($search->getOptions()->count()>0) {
+            $k=0;//on initialise k-0 pr que l'utlisateur ne ouise oas alterer notre requete, injectant ne=;importe quoi
+           foreach($search->getOptions() as $k =>$option){
+               $k++;
+            $query=$query->andWhere(":options$k MEMBER OF p.options")
+                         ->setParameter("options$k",$option);
+           }
+        }
         $query=$query->orderBy('p.id', 'ASC')
                     ->setMaxResults(12)
                     ->getQuery()

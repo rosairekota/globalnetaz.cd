@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editer!{% endblock %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <h2 class="text-center">Editer Les Options</h2>
+    {{ include('admin/option/layouts/form.html.twig',{bouton:'Editer'}) }}
+
+    {% endblock %}
