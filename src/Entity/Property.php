@@ -2,22 +2,27 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+
+
 use Cocur\Slugify\Slugify;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
  * @UniqueEntity("title")
+ * @Vich\Uploadable
  */
 class Property
 {
-    const HEAT=[
-        0   =>'Electique',
-        1   =>'Gaz'
+    const HEAT = [
+        0   => 'Electique',
+        1   => 'Gaz'
     ];
     /**
      * @ORM\Id()
@@ -26,11 +31,33 @@ class Property
      */
     private $id;
 
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string",length=255)
+     */
+    private $imageName;
+
+
+    /**
+     * @var File|null
+     * @Vich\UploadableField(mapping="property_image",fileNameProperty="imageName")
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTimeInterface|null
+     */
+    private $updatedAt;
+
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=5, max=255)
      */
     private $title;
+
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -87,7 +114,7 @@ class Property
     /**
      * @ORM\Column(type="boolean", options={"default":false})
      */
-    private $sold=false;
+    private $sold = false;
 
     /**
      * @ORM\Column(type="datetime")
@@ -98,8 +125,9 @@ class Property
      * @ORM\ManyToMany(targetEntity="App\Entity\Option", inversedBy="properties")
      */
     private $options;
-    public function __construct(){
-        $this->created_at=new \DateTime();
+    public function __construct()
+    {
+        $this->created_at = new \DateTime();
         $this->options = new ArrayCollection();
     }
     public function getId(): ?int
@@ -118,11 +146,12 @@ class Property
 
         return $this;
     }
-    public function getSlug(): ?string{
-        $slug=new Slugify();
+    public function getSlug(): ?string
+    {
+        $slug = new Slugify();
         return $slug->slugify($this->title);
     }
-    
+
 
     public function getDescription(): ?string
     {
@@ -188,8 +217,9 @@ class Property
     {
         return $this->price;
     }
-    public function getFormattedPrice():string{
-        return number_format($this->price,0,'',' ');
+    public function getFormattedPrice(): string
+    {
+        return number_format($this->price, 0, '', ' ');
     }
     public function setPrice(int $price): self
     {
@@ -209,7 +239,8 @@ class Property
 
         return $this;
     }
-    public function getheatType():string{
+    public function getheatType(): string
+    {
         return self::HEAT[$this->heat];
     }
 
@@ -299,5 +330,37 @@ class Property
         }
 
         return $this;
+    }
+
+    // GETTERS ET SETTERS POUR LA GESTION D'UPLOAD
+
+
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
     }
 }

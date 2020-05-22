@@ -8,7 +8,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css')}}">
     <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudfare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/css/select2.min.css">
+
     {% endblock %}
 </head>
 
@@ -20,14 +21,12 @@
     </div>
     {% endblock %}
     {% block javascripts %}
-    <script src="{{ asset('js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('jquery-3.2.1.min.js')}}"></script>
-    <script src="{{asset('jquery.nice-select.min.js')}}"></script>
-    <script src="https://cdnjs.cloudfare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+    {# <script src="{{ asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('jquery-3.2.1.min.js')}}"></script> #}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/js/select2.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('h2').hide();
-        });
+        $('select').select2();
     </script>
     {% endblock %}
 </body>
