@@ -15,36 +15,35 @@ class PropertySearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('maxPrice',IntegerType::class,[
-                'required'  =>false,
-                'label'     =>false,
-                'attr'     =>[
-                    'placeholder'   =>'Budget Maximal'
+            ->add('maxPrice', IntegerType::class, [
+                'required'  => false,
+                'label'     => false,
+                'attr'     => [
+                    'placeholder'   => 'Budget Maximal'
                 ]
             ])
-            ->add('minSurface',IntegerType::class,[
-                'required'  =>false,
-                'label'     =>false,
-                'attr'     =>[
-                    'placeholder'   =>'Surface Minimal'
+            ->add('minSurface', IntegerType::class, [
+                'required'  => false,
+                'label'     => false,
+                'attr'     => [
+                    'placeholder'   => 'Surface Minimal'
                 ]
             ])
-            ->add('options',EntityType::class,[
+            ->add('options', EntityType::class, [
                 'required'      => false,
-                'class'         =>Option::class,
-                'label'         =>false,
-                'choice_label'  =>'name',
-                'multiple'      =>true,
-            ])
-        ;
+                'class'         => Option::class,
+                'label'         => false,
+                'choice_label'  => 'name',
+                'multiple'      => true,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-           'data_class'         => PropertySearch::class,
-           'method'             =>'get',
-          ' csrf_protection'    => false
+            'data_class'         => PropertySearch::class,
+            'method'             => 'get',
+            ' csrf_protection'    => false
         ]);
     }
     /**
@@ -58,5 +57,4 @@ class PropertySearchType extends AbstractType
     {
         return false;
     }
-
 }

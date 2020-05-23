@@ -7,7 +7,15 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
+                {% if property.imageName %}
+                <img src="{{ vich_uploader_asset(property,'imageFile')}}" alt="" class="card-img-top"
+                    style="width: 100%; height: auto;">
+                {% else %}
 
+                <img src="{{ asset('images/default.png')}}" alt="pas d'image" class="card-img-top"
+                    style="width: 100%; height: auto;">
+
+                {% endif %}
             </div>
             <div class="col-md-4">
                 <h3>{{property.title}}</h3>
@@ -52,6 +60,11 @@
         </div>
         <div class="col-md-4">
             <h2>Spécificités</h2>
+            <ul class="list-group">
+                {% for option in property.options %}
+                <li class="list-group-item">{{option.name}}</li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </div>

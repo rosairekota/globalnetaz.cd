@@ -41,6 +41,7 @@ class Property
 
     /**
      * @var File|null
+     * @Assert\Image(mimeTypes = "image/jpg", mimeTypesMessage="Seuls les images ayant l'extension jpg sont valides")
      * @Vich\UploadableField(mapping="property_image",fileNameProperty="imageName")
      */
     private $imageFile;

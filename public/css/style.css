@@ -1,6 +1,10 @@
 .bg-first{
     background-color:rgba(9, 4, 248, 0.589);
 }
+.bg-pro{
+    background-color: #2C3E50;
+    color: #b3b3b3;
+}
 .text-color{
     color:rgba(4, 69, 248, 0.678);;
 }
