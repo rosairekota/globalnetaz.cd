@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,7 +10,9 @@ use App\Repository\PropertyRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Property;
 use App\Entity\PropertySearch;
+use App\Form\ContactType;
 use App\Form\PropertySearchType;
+use App\Notification\ContactNotification;
 use Knp\Component\Pager\PaginatorInterface;
 
 class PropertyController extends AbstractController
@@ -56,10 +59,26 @@ class PropertyController extends AbstractController
     /**
      * @Route("/biens/{slug}-{id}", name="property_show", requirements={"slug":"[a-z0-9\-]*"})
      */
-    public function show(Property $property, string $slug)
+    public function show(Property $property, string $slug, Request $request,ContactNotification  $notification)
     {
+
+
         // on fait une verification du slug
         if ($property->getSlug() != $slug) {
+            return $this->redirectToRoute('property_show', [
+                'id'   => $property->getId(),
+                'slug' => $property->getSlug()
+            ], 301);
+        }
+
+        $contact = new Contact();
+        $contact->setProperty($property);
+        $form_contact = $this->createForm(ContactType::class, $contact);
+        $form_contact->handleRequest($request);
+        if ($form_contact->isSubmitted() && $form_contact->isValid()) {
+            // Envoi de l'email:
+              $notification->notify($contact);
+            $this->addFlash("success", "Votre email a bien été envoyé");
             return $this->redirectToRoute('property_show', [
                 'id'   => $property->getId(),
                 'slug' => $property->getSlug()
@@ -68,6 +87,7 @@ class PropertyController extends AbstractController
         return $this->render('pages/property/show.html.twig', [
             'current_menu' => 'property_index',
             'property'    => $property,
+            'form_contact'    => $form_contact->createView()
         ]);
     }
 

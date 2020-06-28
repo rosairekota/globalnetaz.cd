@@ -1,0 +1,26 @@
+<h1>Salut!</h1>
+
+<p>
+    j'ai choisi le produit <td><a href="{{url('property_show',{id:contact.property.id,slug:contact.property.slug})}}">{{contact.property.title}}</a></td>
+</p>
+{# <p><code>{{ email.to[0].address }}</code></p> #}
+ <table border="1">
+ <thead>
+  <th>Prenom</th>
+  <th>Nom</th>
+  <th>Email</th>
+  <th>Telephone</th>
+ </thead>
+ <tbody>
+    <tr>
+    <td>{{contact.firstname}}</td>
+    <td>{{contact.lastName}}</td>
+    <td>{{contact.email}}</td>
+    <td>{{contact.tel}}</td>
+    </tr>
+ </tbody>
+ </table>
+<p>
+    {# <a href="#">Click here to activate your account</a>
+    (this link is valid until {{ expiration_date|date('F jS') }}) #}
+</p>

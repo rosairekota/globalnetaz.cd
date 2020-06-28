@@ -9,7 +9,7 @@ security:
         users_in_database:
             entity:
                 class: App\Entity\User
-                property: username
+                #property: username
 
     firewalls:
         dev:
