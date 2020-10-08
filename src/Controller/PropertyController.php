@@ -47,7 +47,7 @@ class PropertyController extends AbstractController
             12 /*limit per page*/
         );
 
-        return $this->render('pages/property/index.html.twig', [
+        return $this->render('property_new/index.html.twig', [
             'current_menu'      => 'property_index',
             'properties'        => $properties,
             'form_search'      => $form_search->createView()
@@ -84,7 +84,7 @@ class PropertyController extends AbstractController
                 'slug' => $property->getSlug()
             ], 301);
         }
-        return $this->render('pages/property/show.html.twig', [
+        return $this->render('property_new/show.html.twig', [
             'current_menu' => 'property_index',
             'property'    => $property,
             'form_contact'    => $form_contact->createView()

@@ -1,0 +1,57 @@
+
+ <div class="col-md-4">
+            <div class="card-box-a card-shadow">
+              <div class="img-box-a">
+                    {% if property.imageName %}
+                    <img src="{{ vich_uploader_asset(property,'imageFile')}}" alt="" class="img-a img-fluid"
+                        style="width: 100%; height: auto;">
+                    {% else %}
+
+                    <img src="{{ asset('images/default.png')}}" alt="pas d'image" class="img-a img-fluid"
+                        style="width: 100%; height: auto;">
+
+                    {% endif %}
+              </div>
+              <div class="card-overlay">
+                <div class="card-overlay-a-content">
+                  <div class="card-header-a">
+                    <h2 class="card-title-a">
+                      <a href="#">{{property.postalCode}}
+                        <br />{{property.city}} </a>
+                    </h2>
+                  </div>
+                  <div class="card-body-a">
+                    <div class="price-box d-flex">
+                      <span class="price-a"><a href="{{ path('property_show',{slug:property.slug, id:property.id})}}" class="link-a">Prix | {{property.formattedPrice}} $</a></span>
+                    </div>
+                    <a href="{{ path('property_show',{slug:property.slug, id:property.id})}}" class="link-a">{{property.title}}
+                      <span class="ion-ios-arrow-forward"></span>
+                    </a>
+                  </div>
+                  <div class="card-footer-a">
+                    <ul class="card-info d-flex justify-content-around">
+                      <li>
+                        <h4 class="card-info-title">Surface</h4>
+                        <span>{{property.surface}}
+                          <sup>2</sup>
+                        </span>
+                      </li>
+                      <li>
+                        <h4 class="card-info-title">Etage</h4>
+                        <span>{{property.bedrooms}}</span>
+
+                      </li>
+                      <li>
+                        <h4 class="card-info-title">Pieces</h4>
+                        <span>{{property.rooms}}</span>
+                      </li>
+                      <li>
+                        <h4 class="card-info-title">Chauffage</h4>
+                        <span>{{property.heatType}}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>

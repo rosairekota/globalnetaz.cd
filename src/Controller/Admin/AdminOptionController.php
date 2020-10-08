@@ -92,4 +92,12 @@ class AdminOptionController extends AbstractController
 
         return $this->redirectToRoute('option_index');
     }
+
+    /**
+     * Get the value of option
+     */ 
+    public function getOption()
+    {
+        return $this->option;
+    }
 }

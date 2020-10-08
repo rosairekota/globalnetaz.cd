@@ -126,10 +126,16 @@ class Property
      * @ORM\ManyToMany(targetEntity="App\Entity\Option", inversedBy="properties")
      */
     private $options;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Bonus", mappedBy="property")
+     */
+    private $bonuses;
     public function __construct()
     {
         $this->created_at = new \DateTime();
         $this->options = new ArrayCollection();
+        $this->bonuses = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -220,7 +226,7 @@ class Property
     }
     public function getFormattedPrice(): string
     {
-        return number_format($this->price, 0, '', ' ');
+        return number_format($this->price, 0, '', '. ');
     }
     public function setPrice(int $price): self
     {
@@ -363,5 +369,36 @@ class Property
     public function getImageName(): ?string
     {
         return $this->imageName;
+    }
+
+    /**
+     * @return Collection|Bonus[]
+     */
+    public function getBonuses(): Collection
+    {
+        return $this->bonuses;
+    }
+
+    public function addBonus(Bonus $bonus): self
+    {
+        if (!$this->bonuses->contains($bonus)) {
+            $this->bonuses[] = $bonus;
+            $bonus->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBonus(Bonus $bonus): self
+    {
+        if ($this->bonuses->contains($bonus)) {
+            $this->bonuses->removeElement($bonus);
+            // set the owning side to null (unless already changed)
+            if ($bonus->getProperty() === $this) {
+                $bonus->setProperty(null);
+            }
+        }
+
+        return $this;
     }
 }
