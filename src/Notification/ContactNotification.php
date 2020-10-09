@@ -41,9 +41,9 @@ class ContactNotification
         // envoi d'email avec twig
 
         $email = (new TemplatedEmail())
-            ->from('noreply@nsat.africa')
-            ->to(new Address('contact@nsat.africa'))
-            ->replyTo($contact->getEmail())
+            ->from($contact->getEmail())
+            ->to(new Address('rosairekota@gmail.com'))
+           // ->replyTo('noreplyTo@gmail.com')
             ->subject('Achat du Bien:'.$contact->getProperty()->getTitle())
 
             // path of the Twig template to render
